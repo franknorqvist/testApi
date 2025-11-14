@@ -5,8 +5,14 @@ defmodule TestApiWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", TestApiWeb do
+  scope "/api", TestApiWeb.Api do
     pipe_through :api
+    post("/systems", SystemApiController, :create)
+    get("/systems", SystemApiController, :index)
+    get("/systems/:id", SystemApiController, :show)
+    post("/users", UserApiController, :create)
+    get("/users", UserApiController, :index)
+    get("/users/:id", UserApiController, :show)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
