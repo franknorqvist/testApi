@@ -13,6 +13,12 @@ defmodule TestApiWeb.Router do
     post("/users", UserApiController, :create)
     get("/users", UserApiController, :index)
     get("/users/:id", UserApiController, :show)
+    get("/dashboards", DashboardApiController, :index)
+    get("/dashboards/:id", DashboardApiController, :show)
+    post("/dashboards", DashboardApiController, :create)
+    get("/dashboard_cards", DashboardCardApiController, :index)
+    get("/dashboard_cards/:id", DashboardCardApiController, :show)
+    post("/dashboard_cards", DashboardCardApiController, :create)
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
