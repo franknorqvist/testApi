@@ -1,22 +1,17 @@
 defmodule TestApiWeb.Api.DashboardCardApiController do
   use TestApiWeb, :controller
-  alias TestApi.Dashboards.DashboardCard
-  alias TestApi.Repo
+  alias TestApi.Dashboards.DashboardCards
+  action_fallback TestApiWeb.Api.FallbackController
   require Logger
   def index(conn, _params) do
-    dashboard_cards = Repo.all(DashboardCard)
+    dashboard_cards = DashboardCards.list_dashboard_cards()
     Logger.info("Dashboard cards fetched successfully")
     conn
     |> put_status(:ok)
     |> json(%{data: dashboard_cards})
   end
   def show(conn, %{"id" => id}) do
-    case Repo.get(DashboardCard, id) do
-      nil ->
-        conn
-        |> put_status(:not_found)
-        |> json(%{error: "Dashboard card not found with id: #{id}"})
-        dashboard_card ->
+with {:ok, dashboard_card}  <- DashboardCards.get_dashboard_card(id) do
           Logger.info("specific dashboard card fetched success with id: #{id}")
           conn
           |> put_status(:ok)
@@ -25,19 +20,11 @@ defmodule TestApiWeb.Api.DashboardCardApiController do
     end
   end
     def create(conn, %{"dashboard_card" => dashboard_card_params}) do
-      changeset = DashboardCard.changeset(%DashboardCard{}, dashboard_card_params)
-      case Repo.insert(changeset) do
-        {:ok, dashboard_card} ->
-          Logger.info("Dashboard card created successfully with id: #{dashboard_card.id}")
-          conn
-          |> put_status(:created)
-          |> json(%{data: dashboard_card})
-          {:error, changeset} ->
-            Logger.warn("Failed to create card for dashboard: #{inspect(changeset.errors)}")
+      with {:ok, dashboard_card} <- DashboardCards.create_dashboard_card(dashboard_card_params) do
+        Logger.info("Dashboard card created with id: #{dashboard_card.id}")
             conn
-            |> put_status(:unprocessable_entity)
-            |> json(%{errors: changeset.errors})
-
+            |> put_status(:created)
+            |> json(%{data: dashboard_card})
     end
   end
 end

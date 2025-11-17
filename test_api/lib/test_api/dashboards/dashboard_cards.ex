@@ -1,37 +1,26 @@
-defmodule TestApi.Dashboards.DashboardCard do
- @moduledoc """
- cards for your personal dashboard
- """
- use Ecto.Schema
- import Ecto.Changeset
- alias TestApi.Systems.System
- alias TestApi.Dashboards.Dashboard
- @derive {Jason.Encoder, only: [:id, :system_id, :dashboard_id, :x, :y, :w, :h, :inserted_at, :updated_at]}
+defmodule TestApi.Dashboards.DashboardCards do
+  alias TestApi.Repo
+  alias TestApi.Dashboards.DashboardCard
+  require Logger
+  def list_dashboard_cards do
+    Repo.all(DashboardCard)
+  end
+  def get_dashboard_card!(id), do: Repo.get!(DashboardCard, id)
+  def get_dashboard_card(id) do
+    case Repo.get(DashboardCard, id) do
+      nil -> {:error, :not_found}
+      dashboard_card -> {:ok, dashboard_card}
 
-
-
- schema "dashboard_cards" do
-   field :x, :integer
-   field :y, :integer
-   field :w, :integer
-   field :h, :integer
-   belongs_to :system, System
-   belongs_to :dashboard, Dashboard
-   timestamps(type: :utc_datetime)
+    end
 
   end
-   def changeset(dashboard_card, attrs) do
-     dashboard_card
-     |> cast(attrs, [:x, :y, :w, :h, :system_id, :dashboard_id])
-     |> validate_required([:x, :y, :w, :h, :system_id, :dashboard_id])
-     |> foreign_key_constraint(:system_id)
-     |> foreign_key_constraint(:dashboard_id)
-     |> validate_number(:x, greater_than_or_equal_to: 0)
-     |> validate_number(:y, greater_than_or_equal_to: 0)
-     |> validate_number(:w, greater_than_or_equal_to: 0)
-     |> validate_number(:h, greater_than_or_equal_to: 0)
-
-
-
- end
+  def create_dashboard_card(attrs) do
+    %DashboardCard{}
+    |> DashboardCard.changeset(attrs)
+    |> Repo.insert()
+  end
+  def delete_dashboard_card(id) do
+    dashboard_card = get_dashboard_card!(id)
+    Repo.delete(dashboard_card)
+  end
 end

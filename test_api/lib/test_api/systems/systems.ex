@@ -1,24 +1,26 @@
-defmodule TestApi.Systems.System do
-  @moduledoc """
-  System aka companies
-  """
-  use Ecto.Schema
-  import Ecto.Changeset
-
- @derive {Jason.Encoder, only: [:id, :name, :inserted_at, :updated_at]}
-
-  schema "systems" do
-    field :name, :string
-
-
-    timestamps(type: :utc_datetime)
+defmodule TestApi.Systems.Systems do
+  alias TestApi.Repo
+  alias TestApi.Systems.System
+  require Logger
+  def list_systems do
+    Repo.all(System)
   end
-
-  @doc false
-  def changeset(system, attrs) do
-    system
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
-    |> validate_length(:name, min: 3, max: 255)
+  def get_system(id), do: Repo.get(System, id)
+  def get_system!(id) do
+    case Repo.get(System, id) do
+      nil -> {:error, "System not found"}
+      system -> {:ok, system}
   end
+   end
+   def create_system(attrs) do
+     %System{}
+     |> System.changeset(attrs)
+     |> Repo.insert()
+
+   end
+   def delete_system(id) do
+     system = get_system!(id)
+     Repo.delete!(system)
+     {:ok, "system was deleted succesfully"}
+   end
 end

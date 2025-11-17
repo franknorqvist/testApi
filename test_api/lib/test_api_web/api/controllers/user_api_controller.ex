@@ -1,33 +1,33 @@
 defmodule TestApiWeb.Api.UserApiController do
   use TestApiWeb, :controller
-  alias TestApi.Users.User
-  alias TestApi.Repo
+  alias TestApi.Users.Users
   require Logger
 
   def index(conn, _params) do
-    users = Repo.all(User)
+    users = Users.list_users()
     Logger.info("Users fetched successfully")
     conn
     |> put_status(:ok)
     |> json(%{data: users})
   end
   def show(conn, %{"id" => id}) do
-    case Repo.get(User, id) do
-      nil ->
+    case Users.get_user(id) do
+      {:ok, user} ->
+        Logger.info("User fetched successfully with id: #{id}")
+        conn
+        |> put_status(:ok)
+        |> json(%{data: user})
+
+      {:error, :not_found} ->
         conn
         |> put_status(:not_found)
         |> json(%{error: "User not found with id: #{id}"})
-        user ->
-          Logger.info("User fetched successfully with id: #{id}")
-          conn
-          |> put_status(:ok)
-          |> json(%{data: user})
     end
   end
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
 
-    case Repo.insert(changeset) do
+
+    case Users.create_user(user_params) do
       {:ok, user} ->
         Logger.info("User created successfully with id: #{user.id}")
         conn

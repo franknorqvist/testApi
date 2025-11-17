@@ -1,24 +1,24 @@
-defmodule TestApi.Users.User do
-  @moduledoc """
-   Users aka employees
+defmodule TestApi.Users.Users do
+  alias TestApi.Repo
+  alias TestApi.Users.User
+  require Logger
 
-  """
-  use Ecto.Schema
-  import Ecto.Changeset
-  alias TestApi.Systems.System
-  @derive {Jason.Encoder, only: [:id, :name, :system_id, :inserted_at, :updated_at ]}
+   def list_users do
+     Repo.all(User)
+   end
+   def get_user(id), do: Repo.get(User, id)
 
-  schema "users" do
-    field :name, :string
-    belongs_to :system, System
-    timestamps(type: :utc_datetime)
-  end
+   def get_user!(id) do
+     case Repo.get(User, id) do
+       nil -> {:error, "User not found"}
+       user -> {:ok, user}
+     end
+   end
 
-  def changeset(user, attrs) do
-    user
-    |> cast(attrs, [:name, :system_id])
-    |> validate_required([:name, :system_id])
-    |> validate_length(:name, min: 3, max: 255)
-    |> foreign_key_constraint(:system_id)
-  end
+   def create_user(attrs) do
+     %User{}
+     |> User.changeset(attrs)
+     |> Repo.insert()
+   end
+
 end
