@@ -7,7 +7,7 @@ defmodule TestApi.Systems.Systems do
   end
   def get_system(id) do
     case Repo.get(System, id) do
-      nil -> {:error, "System not found"}
+      nil -> {:error, :not_found}
       system -> {:ok, system}
   end
    end

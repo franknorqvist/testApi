@@ -7,6 +7,7 @@ defmodule TestApi.Application do
 
   @impl true
   def start(_type, _args) do
+    :ets.new(:rate_limiter, [:named_table, :public, :set, write_concurrency: true])
     children = [
       TestApiWeb.Telemetry,
       TestApi.Repo,
