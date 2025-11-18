@@ -1,6 +1,7 @@
 defmodule TestApi.Repo.Migrations.CreateDashboardCards do
   use Ecto.Migration
 
+
   def change do
     create table(:dashboard_cards) do
       add :dashboard_id, references(:dashboards, on_delete: :delete_all), null: false

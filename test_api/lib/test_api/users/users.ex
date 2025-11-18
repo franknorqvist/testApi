@@ -6,9 +6,9 @@ defmodule TestApi.Users.Users do
    def list_users do
      Repo.all(User)
    end
-   def get_user(id), do: Repo.get(User, id)
 
-   def get_user!(id) do
+
+   def get_user(id) do
      case Repo.get(User, id) do
        nil -> {:error, "User not found"}
        user -> {:ok, user}

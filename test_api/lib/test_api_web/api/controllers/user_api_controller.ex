@@ -11,7 +11,7 @@ defmodule TestApiWeb.Api.UserApiController do
 
     conn
     |> put_status(:ok)
-    |> json(%{data: users})
+    |> render(:index, users: users)
   end
 
   def show(conn, %{"id" => id}) do
@@ -19,7 +19,7 @@ defmodule TestApiWeb.Api.UserApiController do
       Logger.info("User fetched successfully with id: #{id}")
       conn
       |> put_status(:ok)
-      |> json(%{data: user})
+      |> render(:show, user: user)
     end
   end
 
@@ -28,7 +28,7 @@ defmodule TestApiWeb.Api.UserApiController do
       Logger.info("User created successfully with id: #{user.id}")
       conn
       |> put_status(:created)
-      |> json(%{data: user})
+      |> render(:create, user: user)
     end
   end
 end

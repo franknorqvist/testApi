@@ -5,8 +5,7 @@ defmodule TestApi.Systems.Systems do
   def list_systems do
     Repo.all(System)
   end
-  def get_system(id), do: Repo.get(System, id)
-  def get_system!(id) do
+  def get_system(id) do
     case Repo.get(System, id) do
       nil -> {:error, "System not found"}
       system -> {:ok, system}
@@ -19,7 +18,7 @@ defmodule TestApi.Systems.Systems do
 
    end
    def delete_system(id) do
-     system = get_system!(id)
+     system = get_system(id)
      Repo.delete!(system)
      {:ok, "system was deleted succesfully"}
    end

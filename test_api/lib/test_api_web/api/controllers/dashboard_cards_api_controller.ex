@@ -8,14 +8,14 @@ defmodule TestApiWeb.Api.DashboardCardApiController do
     Logger.info("Dashboard cards fetched successfully")
     conn
     |> put_status(:ok)
-    |> json(%{data: dashboard_cards})
+    |> render(:index, dashboard_cards: dashboard_cards)
   end
   def show(conn, %{"id" => id}) do
 with {:ok, dashboard_card}  <- DashboardCards.get_dashboard_card(id) do
           Logger.info("specific dashboard card fetched success with id: #{id}")
           conn
           |> put_status(:ok)
-          |> json(%{data: dashboard_card})
+          |>  render(:show, dashboard_card: dashboard_card)
 
     end
   end
@@ -24,7 +24,7 @@ with {:ok, dashboard_card}  <- DashboardCards.get_dashboard_card(id) do
         Logger.info("Dashboard card created with id: #{dashboard_card.id}")
             conn
             |> put_status(:created)
-            |> json(%{data: dashboard_card})
+            |> render(:create, dashboard_card: dashboard_card)
     end
   end
 end

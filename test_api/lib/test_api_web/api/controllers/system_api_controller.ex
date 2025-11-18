@@ -1,6 +1,5 @@
 defmodule TestApiWeb.Api.SystemApiController do
   use TestApiWeb, :controller
- alias TestApiWeb.Api.Views.SystemJson
   alias TestApi.Systems.Systems
   action_fallback TestApiWeb.Api.FallbackController
   require Logger
