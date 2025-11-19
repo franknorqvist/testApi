@@ -24,7 +24,7 @@ defmodule TestApiWeb.Api.DashboardApiController do
     with {:ok, dashboard} <- Dashboards.create_dashboard(dashboard_params) do
       conn
       |> put_status(:created)
-      |> render(:show, dashboard: dashboard, dashboard_cards: [])  # ✅ dashboard (singular)
+      |> render(:show, dashboard: dashboard, dashboard_cards: [])
     end
   end
 end

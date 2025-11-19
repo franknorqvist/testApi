@@ -7,11 +7,8 @@ defmodule TestApiWeb.Router do
   end
 
   defp rate_limiter(conn, _opts) do
-
-  TestApiWeb.Plugs.RateLimiter.call(conn, %{limit: 100, window: 60_000})
+    TestApiWeb.Plugs.RateLimiter.call(conn, %{limit: 100, window: 60_000})
   end
-
-
 
   scope "/api", TestApiWeb.Api do
     pipe_through :api

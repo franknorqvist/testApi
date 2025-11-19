@@ -1,6 +1,6 @@
 defmodule TestApiWeb.Api.ErrorApiJSON do
-   # 404 Not Found
-   def render("404.json", _assigns) do
+  # 404 Not Found
+  def render("404.json", _assigns) do
     %{
       error: %{
         status: 404,
@@ -36,6 +36,7 @@ defmodule TestApiWeb.Api.ErrorApiJSON do
   # Generic error handler - catches all other status codes
   def render(template, _assigns) do
     status = String.to_integer(String.replace(template, ".json", ""))
+
     %{
       error: %{
         status: status,

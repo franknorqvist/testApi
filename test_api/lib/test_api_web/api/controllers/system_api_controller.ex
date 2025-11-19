@@ -16,6 +16,7 @@ defmodule TestApiWeb.Api.SystemApiController do
   def show(conn, %{"id" => id}) do
     with {:ok, system} <- Systems.get_system(id) do
       Logger.info("Company fetched successfully with id: #{id}")
+
       conn
       |> put_status(:ok)
       |> render(:show, system: system)
@@ -33,6 +34,7 @@ defmodule TestApiWeb.Api.SystemApiController do
   def create(conn, %{"system" => system_params}) do
     with {:ok, system} <- Systems.create_system(system_params) do
       Logger.info("System created successfully with id: #{system.id}")
+
       conn
       |> put_status(:created)
       |> render(:create, system: system)

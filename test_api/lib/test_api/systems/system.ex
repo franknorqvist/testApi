@@ -5,11 +5,10 @@ defmodule TestApi.Systems.System do
   use Ecto.Schema
   import Ecto.Changeset
 
- @derive {Jason.Encoder, only: [:id, :name, :inserted_at, :updated_at]}
+  @derive {Jason.Encoder, only: [:id, :name, :inserted_at, :updated_at]}
 
   schema "systems" do
     field :name, :string
-
 
     timestamps(type: :utc_datetime)
   end

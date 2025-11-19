@@ -17,6 +17,7 @@ defmodule TestApiWeb.Api.UserApiController do
   def show(conn, %{"id" => id}) do
     with {:ok, user} <- Users.get_user(id) do
       Logger.info("User fetched successfully with id: #{id}")
+
       conn
       |> put_status(:ok)
       |> render(:show, user: user)
@@ -26,6 +27,7 @@ defmodule TestApiWeb.Api.UserApiController do
   def create(conn, %{"user" => user_params}) do
     with {:ok, user} <- Users.create_user(user_params) do
       Logger.info("User created successfully with id: #{user.id}")
+
       conn
       |> put_status(:created)
       |> render(:create, user: user)

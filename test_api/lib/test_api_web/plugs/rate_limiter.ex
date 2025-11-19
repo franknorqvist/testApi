@@ -33,14 +33,17 @@ defmodule TestApiWeb.Plugs.RateLimiter do
         |> put_resp_header("x-ratelimit-remaining", "0")
         |> put_resp_header("x-ratelimit-reset", to_string(reset_time(window)))
         |> put_resp_header("retry-after", to_string(calculate_retry_after(window)))
-        |> send_resp(429, Jason.encode!(%{
-          error: %{
-            status: 429,
-            message: "Too Many Requests",
-            detail: "Rate limit exceeded. Please try again later.",
-            retry_after: calculate_retry_after(window)
-          }
-        }))
+        |> send_resp(
+          429,
+          Jason.encode!(%{
+            error: %{
+              status: 429,
+              message: "Too Many Requests",
+              detail: "Rate limit exceeded. Please try again later.",
+              retry_after: calculate_retry_after(window)
+            }
+          })
+        )
         |> halt()
     end
   end

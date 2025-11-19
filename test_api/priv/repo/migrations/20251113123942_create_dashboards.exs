@@ -7,6 +7,7 @@ defmodule TestApi.Repo.Migrations.CreateDashboards do
       add :name, :string, null: false
       timestamps(type: :utc_datetime)
     end
+
     index(:dashboards, [:system_id])
   end
 end

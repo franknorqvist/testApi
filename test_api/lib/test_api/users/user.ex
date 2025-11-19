@@ -6,7 +6,7 @@ defmodule TestApi.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias TestApi.Systems.System
-  @derive {Jason.Encoder, only: [:id, :name, :system_id, :inserted_at, :updated_at ]}
+  @derive {Jason.Encoder, only: [:id, :name, :system_id, :inserted_at, :updated_at]}
 
   schema "users" do
     field :name, :string

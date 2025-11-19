@@ -8,10 +8,11 @@ defmodule TestApiWeb.Api.DashboardApiJSON do
 
   def render("show.json", %{dashboard: dashboard, dashboard_cards: dashboard_cards}) do
     %{
-      dashboard: render("dashboard.json", %{
-        dashboard: dashboard,
-        dashboard_cards: dashboard_cards
-      })
+      dashboard:
+        render("dashboard.json", %{
+          dashboard: dashboard,
+          dashboard_cards: dashboard_cards
+        })
     }
   end
 
@@ -23,7 +24,11 @@ defmodule TestApiWeb.Api.DashboardApiJSON do
       user_id: dashboard.user_id,
       inserted_at: dashboard.inserted_at,
       updated_at: dashboard.updated_at,
-      dashboard_cards: Enum.map(dashboard_cards, &DashboardCardApiJSON.render("dashboard_card.json", %{dashboard_card: &1}))
+      dashboard_cards:
+        Enum.map(
+          dashboard_cards,
+          &DashboardCardApiJSON.render("dashboard_card.json", %{dashboard_card: &1})
+        )
     }
   end
 
